@@ -8,9 +8,14 @@ import (
 	"weather/weather"
 )
 
+type WManager interface {
+	Echo()
+}
+
 func Parse() {
 	if len(os.Args) == 1 {
 		log.Println("this is help")
+		return
 	}
 
 	switch strings.ToLower(os.Args[1]) {
@@ -19,6 +24,8 @@ func Parse() {
 			config.SetConfig(os.Args[2])
 		}
 	case "gw":
-		weather.Weather(config.GetConfig())
+		if err := weather.XinZhiWeather(config.GetConfig());err!=nil{
+			weather.DefaultWeather()
+		}
 	}
 }
